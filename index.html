@@ -467,35 +467,114 @@ svg.flow{width:100%;font-family:var(--font-sans,sans-serif);}
 </svg>
 </div>
 
+
 <!-- GLOSARIO -->
 <div class="panel" id="glos">
 <table class="gloss-table">
 <thead><tr><th>Control de seguridad</th><th>Fase(s) CKC</th><th>Línea de acción</th><th>Descripción aplicada al caso</th></tr></thead>
 <tbody>
-<tr><td>OSINT Monitoring / NIDS/SIEM</td><td>Reconocimiento / C2</td><td>Detección</td><td>Monitoreo de fuentes abiertas (LinkedIn, web corporativa) y tráfico interno para detectar beacons de BlackEnergy3 y actividad anómala en HMI.</td></tr>
-<tr><td>Política OPSEC</td><td>Reconocimiento</td><td>Denegación</td><td>Minimiza exposición de datos públicos de empleados y proveedores. Reduce superficie para spear-phishing con dominios typosquatting (ukrenergo.energy.gov.ua).</td></tr>
-<tr><td>Honeytoken Emails</td><td>Reconocimiento / Entrega</td><td>Engaño</td><td>Correos ficticios sembrados en directorios web. Si el atacante los usa para phishing, se genera alerta automática revelando sus intenciones.</td></tr>
-<tr><td>SPF / DKIM / DMARC</td><td>Entrega</td><td>Detección / Denegación</td><td>Protocolos de autenticación de correo que bloquean suplantación del dominio ukrenergo.energy.gov.ua utilizado en el spear-phishing.</td></tr>
-<tr><td>Restricción Macros Office (GPO)</td><td>Armamentización / Explotación</td><td>Denegación / Disrupción</td><td>Deshabilita ejecución de macros mediante Directiva de Grupo en Active Directory. Mitiga el vector de explotación CVE-2014-4114 de BlackEnergy3.</td></tr>
-<tr><td>Patch Management (Parche MS14-060)</td><td>Armamentización / Explotación</td><td>Degradación</td><td>Aplicación del parche MS14-060 que cierra la vulnerabilidad OLE CVE-2014-4114 explotada por BlackEnergy3 vía documento Office troyanizado.</td></tr>
-<tr><td>Email Sandbox (Email Sandbox)</td><td>Entrega</td><td>Degradación</td><td>Entorno aislado donde se analizan automáticamente los adjuntos antes de entregarlos. Detecta detonación de macros y shellcode del adjunto con BlackEnergy3.</td></tr>
-<tr><td>Canary Docs / Canary Token</td><td>Armamentización / Instalación / Explotación</td><td>Engaño</td><td>Documentos Office o archivos señuelo con tokens. Detecta si el atacante los utiliza como plantilla para armar nuevas cargas maliciosas o accede a carpetas ICS.</td></tr>
-<tr><td>HIDS / EDR</td><td>Explotación / Instalación</td><td>Detección</td><td>Monitorea endpoints en tiempo real: detecta ejecución de macros, creación de backdoors y comunicaciones salientes de BlackEnergy3 o KillDisk en sistemas Windows.</td></tr>
-<tr><td>Application Whitelisting (AppLocker)</td><td>Explotación / Instalación</td><td>Disrupción</td><td>Solo permite ejecución de aplicaciones autorizadas. Bloquea BlackEnergy3 y KillDisk si no están en la lista de aplicaciones permitidas en sistemas ICS/SCADA.</td></tr>
-<tr><td>DEP / ASLR</td><td>Explotación</td><td>Degradación</td><td>Mecanismos de protección de memoria en Windows que dificultan la explotación predecible de CVE-2014-4114 (DEP bloquea ejecución en datos; ASLR aleatoriza direcciones).</td></tr>
-<tr><td>Segmentación Red IT/OT (VLAN + Firewall OT)</td><td>Instalación / C2 / Acciones</td><td>Degradación / Denegación</td><td>Separa físicamente las redes IT y OT mediante VLANs y firewalls específicos (Purdue Model). Limita la propagación de BlackEnergy3 de la red corporativa hacia SCADA.</td></tr>
-<tr><td>DNS Sinkhole</td><td>Entrega / C2</td><td>Disrupción / Desvío</td><td>Redirige resoluciones DNS de dominios maliciosos (typosquatting, C2) hacia un servidor controlado por seguridad, bloqueando comunicación de BlackEnergy3 con su C2.</td></tr>
-<tr><td>HTTP NIPS</td><td>C2</td><td>Disrupción</td><td>Inspecciona y bloquea en línea el tráfico HTTP/HTTPS sospechoso: comunicaciones de BlackEnergy3 con servidores C2, descargas de KillDisk y tráfico de botnets.</td></tr>
-<tr><td>SIEM</td><td>C2 / Reconocimiento / Acciones</td><td>Detección</td><td>Centraliza y correlaciona logs de firewalls, NIDS, endpoints y servidores. Detecta patrones anómalos como beacons de BlackEnergy3 hacia servidores C2 externos.</td></tr>
-<tr><td>Honeypot C2 / ICS Honeypot</td><td>C2 / Acciones en objetivo</td><td>Engaño / Desvío</td><td>Sistemas ficticios que simulan servidores C2 o dispositivos ICS/SCADA reales. Atraen y desvían comunicaciones de BlackEnergy3 para estudiar TTPs sin exponer producción.</td></tr>
-<tr><td>MFA / 2FA en VPN</td><td>Acciones en objetivo</td><td>Denegación</td><td>Autenticación multifactor para VPN e ICS. Aunque el atacante obtuvo credenciales VPN mediante Mimikatz/keyloggers, MFA habría bloqueado su uso sin el segundo factor.</td></tr>
-<tr><td>Backups Offline de Firmware</td><td>Acciones en objetivo</td><td>Degradación</td><td>Copias de firmwares de UPS, Serial-to-Ethernet y HMIs almacenadas offline. Permiten restaurar rápidamente dispositivos con versiones troyanizadas de firmware por KillDisk.</td></tr>
-<tr><td>Air Gap de Emergencia</td><td>Acciones en objetivo</td><td>Neutralización</td><td>Desconecta físicamente la red OT/ICS de todas las redes externas ante detección de ataque activo. Previene ejecución remota de comandos destructivos en HMIs y RTUs.</td></tr>
-<tr><td>Mitigación TDoS</td><td>Acciones en objetivo</td><td>Neutralización / Disrupción</td><td>Controles para detectar y mitigar ataques de denegación de servicio telefónico (TDoS) contra Call Centers del sistema eléctrico. Incluye filtrado de llamadas y canales alternativos.</td></tr>
-<tr><td>Threat Intelligence Feed</td><td>Reconocimiento / Entrega / C2</td><td>Detección / Neutralización</td><td>Servicios de inteligencia con IoCs actualizados: IPs de servidores C2, hashes de BlackEnergy3 y KillDisk, dominios maliciosos y TTPs del grupo Sandworm (APT28).</td></tr>
-<tr><td>Plan de Respuesta ICS (ICS IR Plan)</td><td>Acciones en objetivo</td><td>Retraso / Desvío</td><td>Procedimientos documentados para respuesta ante incidentes ICS. Incluye operación manual de subestaciones, comunicación de emergencia y coordinación con autoridades.</td></tr>
-<tr><td>Revocación de Credenciales VPN</td><td>C2 / Acciones en objetivo</td><td>Neutralización / Supresión</td><td>Invalidación inmediata de credenciales VPN comprometidas (T1589, T1555). Corta el canal de acceso remoto que el atacante usó para ingresar a la red ICS/SCADA.</td></tr>
-<tr><td>Security Awareness Training</td><td>Entrega</td><td>Denegación</td><td>Programa de capacitación anti-phishing a empleados sobre técnicas de ingeniería social, identificación de spear-phishing ICS y procedimientos de reporte de incidentes.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+OSINT Monitoring (Open Source Intelligence),
+NIDS (Network Intrusion Detection System),
+SIEM (Security Information and Event Management)
+</pre>
+</td><td>Reconocimiento / C2</td><td>Detección</td><td>Monitoreo de fuentes abiertas (LinkedIn, web corporativa) y tráfico interno para detectar beacons de BlackEnergy3 y actividad anómala en HMI.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Política OPSEC (Operations Security) 
+</pre>
+</td><td>Reconocimiento</td><td>Denegación</td><td>Minimiza exposición de datos públicos de empleados y proveedores. Reduce superficie para spear-phishing con dominios typosquatting (ukrenergo.energy.gov.ua).</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px; margin-left: 5px;">
+Honeytoken Emails (correo electrónico de señuelo)
+</pre>
+</td><td>Reconocimiento / Entrega</td><td>Engaño</td><td>Correos ficticios sembrados en directorios web. Si el atacante los usa para phishing, se genera alerta automática revelando sus intenciones.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px; ">
+SPF (Sender Policy Framework)
+DKIM (DomainKeys Identified Mail)
+DMARC (Autenticación de mensajes basada en dominios, informes y conformidad)
+</pre>
+</td><td>Entrega</td><td>Detección / Denegación</td><td>Protocolos de autenticación de correo que bloquean suplantación del dominio ukrenergo.energy.gov.ua utilizado en el spear-phishing.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Restricción Macros Office (GPO)
+</pre>
+</td><td>Armamentización / Explotación</td><td>Denegación / Disrupción</td><td>Deshabilita ejecución de macros mediante Directiva de Grupo en Active Directory. Mitiga el vector de explotación CVE-2014-4114 de BlackEnergy3.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Patch Management (Parche MS14-060)
+</pre>
+</td><td>Armamentización / Explotación</td><td>Degradación</td><td>Aplicación del parche MS14-060 que cierra la vulnerabilidad OLE CVE-2014-4114 explotada por BlackEnergy3 vía documento Office troyanizado.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Email Sandbox (Email Sandbox)
+</pre>
+</td><td>Entrega</td><td>Degradación</td><td>Entorno aislado donde se analizan automáticamente los adjuntos antes de entregarlos. Detecta detonación de macros y shellcode del adjunto con BlackEnergy3.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Canary Docs / Canary Token
+</pre>
+</td><td>Armamentización / Instalación / Explotación</td><td>Engaño</td><td>Documentos Office o archivos señuelo con tokens. Detecta si el atacante los utiliza como plantilla para armar nuevas cargas maliciosas o accede a carpetas ICS.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+HIDS (Host-based Intrusion Detection System),
+EDR (Endpoint Detection and Response)
+</pre>
+</td><td>Explotación / Instalación</td><td>Detección</td><td>Monitorea endpoints en tiempo real: detecta ejecución de macros, creación de backdoors y comunicaciones salientes de BlackEnergy3 o KillDisk en sistemas Windows.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Application Whitelisting (AppLocker)
+</pre>
+</td><td>Explotación / Instalación</td><td>Disrupción</td><td>Solo permite ejecución de aplicaciones autorizadas. Bloquea BlackEnergy3 y KillDisk si no están en la lista de aplicaciones permitidas en sistemas ICS/SCADA.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px; ">
+DEP (Data Execution Prevention),
+ASLR (Address Space Layout Randomization)
+</pre>
+</td><td>Explotación</td><td>Degradación</td><td>Mecanismos de protección de memoria en Windows que dificultan la explotación predecible de CVE-2014-4114 (DEP bloquea ejecución en datos; ASLR aleatoriza direcciones).</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Segmentación Red IT/OT (VLAN + Firewall OT)
+</pre>
+</td><td>Instalación / C2 / Acciones</td><td>Degradación / Denegación</td><td>Separa físicamente las redes IT y OT mediante VLANs y firewalls específicos (Purdue Model). Limita la propagación de BlackEnergy3 de la red corporativa hacia SCADA.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+DNS Sinkhole</pre>
+</td><td>Entrega / C2</td><td>Disrupción / Desvío</td><td>Redirige resoluciones DNS de dominios maliciosos (typosquatting, C2) hacia un servidor controlado por seguridad, bloqueando comunicación de BlackEnergy3 con su C2.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+HTTP NIPS (Network Intrusion Prevention System)
+</pre>
+</td><td>C2</td><td>Disrupción</td><td>Inspecciona y bloquea en línea el tráfico HTTP/HTTPS sospechoso: comunicaciones de BlackEnergy3 con servidores C2, descargas de KillDisk y tráfico de botnets.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+SIEM (Security Information and Event Management)
+</pre>
+</td><td>C2 / Reconocimiento / Acciones</td><td>Detección</td><td>Centraliza y correlaciona logs de firewalls, NIDS, endpoints y servidores. Detecta patrones anómalos como beacons de BlackEnergy3 hacia servidores C2 externos.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Honeypot C2 / ICS Honeypot
+</pre>
+</td><td>C2 / Acciones en objetivo</td><td>Engaño / Desvío</td><td>Sistemas ficticios que simulan servidores C2 o dispositivos ICS/SCADA reales. Atraen y desvían comunicaciones de BlackEnergy3 para estudiar TTPs sin exponer producción.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+MFA (Multi-Factor Authentication),
+2FA (Two-Factor Authentication) en VPN
+</pre>
+</td><td>Acciones en objetivo</td><td>Denegación</td><td>Autenticación multifactor para VPN e ICS. Aunque el atacante obtuvo credenciales VPN mediante Mimikatz/keyloggers, MFA habría bloqueado su uso sin el segundo factor.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Backups Offline de Firmware
+</pre>
+</td><td>Acciones en objetivo</td><td>Degradación</td><td>Copias de firmwares de UPS, Serial-to-Ethernet y HMIs almacenadas offline. Permiten restaurar rápidamente dispositivos con versiones troyanizadas de firmware por KillDisk.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Air Gap de Emergencia
+</pre>
+</td><td>Acciones en objetivo</td><td>Neutralización</td><td>Desconecta físicamente la red OT/ICS de todas las redes externas ante detección de ataque activo. Previene ejecución remota de comandos destructivos en HMIs y RTUs.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Mitigación TDoS (Ataque distribuido de denegación de servicio)
+</pre>
+</td><td>Acciones en objetivo</td><td>Neutralización / Disrupción</td><td>Controles para detectar y mitigar ataques de denegación de servicio telefónico (TDoS) contra Call Centers del sistema eléctrico. Incluye filtrado de llamadas y canales alternativos.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Threat Intelligence Feed (flujo de inteligencia sobre amenazas)
+</pre>
+</td><td>Reconocimiento / Entrega / C2</td><td>Detección / Neutralización</td><td>Servicios de inteligencia con IoCs actualizados: IPs de servidores C2, hashes de BlackEnergy3 y KillDisk, dominios maliciosos y TTPs del grupo Sandworm (APT28).</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Plan de Respuesta ICS (ICS IR Plan)
+</pre>
+</td><td>Acciones en objetivo</td><td>Retraso / Desvío</td><td>Procedimientos documentados para respuesta ante incidentes ICS. Incluye operación manual de subestaciones, comunicación de emergencia y coordinación con autoridades.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Revocación de Credenciales VPN
+</pre>
+</td><td>C2 / Acciones en objetivo</td><td>Neutralización / Supresión</td><td>Invalidación inmediata de credenciales VPN comprometidas (T1589, T1555). Corta el canal de acceso remoto que el atacante usó para ingresar a la red ICS/SCADA.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Security Awareness Training
+</pre>
+</td><td>Entrega</td><td>Denegación</td><td>Programa de capacitación anti-phishing a empleados sobre técnicas de ingeniería social, identificación de spear-phishing ICS y procedimientos de reporte de incidentes.</td></tr>
 </tbody>
 </table>
 </div>
