@@ -1,0 +1,552 @@
+<style>
+:root{--red:#c0392b;--red-light:#f8d7d7;--red-dark:#922b21;--gray:#5f6368;--gray-light:#f1f3f4;--gray-mid:#bdc3c7;--border:var(--color-border-tertiary);--radius:6px;--yellow:#f39c12;--blue-arrow:#2471a3;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-sans,sans-serif);font-size:13px;color:var(--color-text-primary);background:transparent;}
+h2{font-size:15px;font-weight:500;margin:0 0 6px;color:var(--color-text-primary);}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px;}
+.tab{padding:5px 11px;border-radius:20px;border:0.5px solid var(--color-border-secondary);cursor:pointer;font-size:12px;font-weight:400;color:var(--color-text-secondary);background:var(--color-background-primary);transition:all .15s;}
+.tab.active,.tab:hover{background:var(--red);color:#fff;border-color:var(--red);}
+.panel{display:none;}
+.panel.active{display:block;}
+svg.flow{width:100%;font-family:var(--font-sans,sans-serif);}
+.box-red rect{fill:#c0392b;stroke:#922b21;stroke-width:0.5;}
+.box-red text{fill:#fff;}
+.box-gray rect{fill:#dce0e3;stroke:#9faab3;stroke-width:0.5;}
+.box-gray text{fill:#2c3e50;}
+.box-yellow rect{fill:#f7dc6f;stroke:#d4ac0d;stroke-width:0.5;}
+.box-yellow text{fill:#784212;}
+.box-green rect{fill:#27ae60;stroke:#1a7a40;stroke-width:0.5;}
+.box-green text{fill:#fff;}
+.box-blue rect{fill:#2471a3;stroke:#1a5276;stroke-width:0.5;}
+.box-blue text{fill:#fff;}
+.gloss-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;}
+.gloss-table th{background:var(--red);color:#fff;padding:7px 8px;text-align:left;font-weight:500;}
+.gloss-table td{padding:6px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;}
+.gloss-table tr:nth-child(even) td{background:var(--color-background-secondary);}
+.gloss-table td:first-child{font-weight:500;color:var(--red-dark);white-space:nowrap;min-width:120px;}
+.phase-label{font-size:11px;font-weight:500;letter-spacing:.03em;fill:#5f6368;}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px;font-size:11px;align-items:center;}
+.legend-item{display:flex;align-items:center;gap:5px;}
+.leg-box{width:14px;height:14px;border-radius:3px;}
+</style>
+
+<div style="padding:12px 0 0;">
+<div class="legend">
+  <span style="color:var(--color-text-secondary);font-size:11px;font-weight:500;">Leyenda:</span>
+  <div class="legend-item"><div class="leg-box" style="background:#c0392b;"></div><span>Acciones (equipo IRI)</span></div>
+  <div class="legend-item"><div class="leg-box" style="background:#dce0e3;border:0.5px solid #9faab3;"></div><span>Controles / artefactos CKC</span></div>
+  <div class="legend-item"><div class="leg-box" style="background:#f7dc6f;border:0.5px solid #d4ac0d;"></div><span>Decisión / conexión de fase</span></div>
+  <div class="legend-item"><div class="leg-box" style="background:#27ae60;"></div><span>Inicio / Fin</span></div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="show('prep')">A. Preparación</div>
+  <div class="tab" onclick="show('det')">B. Detección</div>
+  <div class="tab" onclick="show('anal')">C. Análisis</div>
+  <div class="tab" onclick="show('cont')">D. Contención</div>
+  <div class="tab" onclick="show('erra')">E. Erradicación</div>
+  <div class="tab" onclick="show('rec')">F. Recuperación</div>
+  <div class="tab" onclick="show('post')">G. Post-Incidente</div>
+  <div class="tab" onclick="show('glos')">Glosario</div>
+</div>
+
+<!-- A. PREPARACIÓN -->
+<div class="panel active" id="prep">
+<svg class="flow" viewBox="0 0 680 620">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<!-- INICIO -->
+<g class="box-green"><rect x="265" y="10" width="150" height="36" rx="18"/><text x="340" y="33" text-anchor="middle" font-size="13" font-weight="500">INICIO</text></g>
+<line x1="340" y1="46" x2="340" y2="70" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Establecer equipo gestión -->
+<g class="box-red"><rect x="205" y="70" width="270" height="40" rx="6"/><text x="340" y="95" text-anchor="middle" font-size="12" font-weight="500">Establecer equipo de gestión de incidentes</text></g>
+<line x1="480" y1="90" x2="530" y2="90" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="530" y="70" width="110" height="36" rx="4"/><text x="585" y="83" text-anchor="middle" font-size="11">CIO / CISO</text><text x="585" y="97" text-anchor="middle" font-size="11">Relaciones Públicas</text></g>
+
+<line x1="340" y1="110" x2="340" y2="135" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Establecer equipo técnico -->
+<g class="box-red"><rect x="205" y="135" width="270" height="40" rx="6"/><text x="340" y="160" text-anchor="middle" font-size="12" font-weight="500">Establecer equipo técnico ICS/SCADA</text></g>
+<line x1="480" y1="155" x2="530" y2="155" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="530" y="135" width="115" height="40" rx="4"/><text x="587" y="148" text-anchor="middle" font-size="11">ERI / Admins de red</text><text x="587" y="163" text-anchor="middle" font-size="11">Expertos OT/ICS</text></g>
+
+<line x1="340" y1="175" x2="340" y2="200" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Definir ruta escalación -->
+<g class="box-red"><rect x="205" y="200" width="270" height="40" rx="6"/><text x="340" y="225" text-anchor="middle" font-size="12" font-weight="500">Definir ruta de escalación ICS</text></g>
+<line x1="340" y1="240" x2="340" y2="265" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Configurar herramientas de monitoreo -->
+<g class="box-red"><rect x="180" y="265" width="320" height="40" rx="6"/><text x="340" y="285" text-anchor="middle" font-size="12" font-weight="500">Configurar herramientas de monitoreo</text><text x="340" y="299" text-anchor="middle" font-size="11">(NIDS/SIEM + Detección beacons BlackEnergy3)</text></g>
+<line x1="180" y1="285" x2="80" y2="285" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="265" width="60" height="40" rx="4"/><text x="50" y="282" text-anchor="middle" font-size="11">NIDS</text><text x="50" y="296" text-anchor="middle" font-size="11">SIEM</text></g>
+
+<line x1="340" y1="305" x2="340" y2="330" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Implementar controles preventivos -->
+<g class="box-red"><rect x="180" y="330" width="320" height="40" rx="6"/><text x="340" y="350" text-anchor="middle" font-size="12" font-weight="500">Implementar controles preventivos CKC</text><text x="340" y="364" text-anchor="middle" font-size="11">(Política OPSEC + Restricción Macros GPO)</text></g>
+<line x1="180" y1="350" x2="80" y2="350" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="330" width="60" height="40" rx="4"/><text x="50" y="347" text-anchor="middle" font-size="11">GPO</text><text x="50" y="361" text-anchor="middle" font-size="11">OPSEC</text></g>
+<line x1="500" y1="350" x2="590" y2="350" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="530" y="330" width="120" height="40" rx="4"/><text x="590" y="347" text-anchor="middle" font-size="11">Patch Mgmt</text><text x="590" y="361" text-anchor="middle" font-size="11">AppLocker</text></g>
+
+<line x1="340" y1="370" x2="340" y2="395" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Segmentar red IT/OT -->
+<g class="box-red"><rect x="180" y="395" width="320" height="40" rx="6"/><text x="340" y="415" text-anchor="middle" font-size="12" font-weight="500">Segmentar red IT/OT (VLAN + Firewall OT)</text><text x="340" y="429" text-anchor="middle" font-size="11">(Instalación / C2 / Acciones en objetivo)</text></g>
+<line x1="180" y1="415" x2="80" y2="415" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="395" width="60" height="40" rx="4"/><text x="50" y="412" text-anchor="middle" font-size="11">VLAN</text><text x="50" y="426" text-anchor="middle" font-size="11">FW OT</text></g>
+
+<line x1="340" y1="435" x2="340" y2="460" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Definir documentos contactos -->
+<g class="box-red"><rect x="205" y="460" width="270" height="36" rx="6"/><text x="340" y="483" text-anchor="middle" font-size="12" font-weight="500">Documentar contactos internos y externos</text></g>
+<line x1="480" y1="478" x2="530" y2="478" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="530" y="460" width="115" height="36" rx="4"/><text x="587" y="473" text-anchor="middle" font-size="11">Contactos ICS</text><text x="587" y="487" text-anchor="middle" font-size="11">CERT, CSIRT</text></g>
+
+<line x1="340" y1="496" x2="340" y2="520" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Detección (conexión) -->
+<g>
+  <polygon points="255,520 425,520 340,556" fill="#FFD700" stroke="none" />
+  <text x="340" y="538" text-anchor="middle" font-size="13" font-weight="500" fill="currentColor">→ Detección</text>
+</g>
+</svg>
+</div>
+
+<!-- B. DETECCIÓN -->
+<div class="panel" id="det">
+<svg class="flow" viewBox="0 0 680 620">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<!-- Viene de Preparación -->
+<g class="box-yellow"><rect x="255" y="10" width="170" height="36" rx="18"/><text x="340" y="33" text-anchor="middle" font-size="13" font-weight="500">← Preparación</text></g>
+
+<line x1="340" y1="46" x2="340" y2="70" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Monitorear indicadores de compromiso -->
+<g class="box-red"><rect x="180" y="70" width="320" height="40" rx="6"/><text x="340" y="90" text-anchor="middle" font-size="12" font-weight="500">Monitorear indicadores de compromiso</text><text x="340" y="104" text-anchor="middle" font-size="11">(NIDS/SIEM: beacons BlackEnergy3, actividad HMI)</text></g>
+<line x1="180" y1="90" x2="80" y2="90" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="70" width="60" height="40" rx="4"/><text x="50" y="87" text-anchor="middle" font-size="11">SIEM</text><text x="50" y="101" text-anchor="middle" font-size="11">NIDS</text></g>
+<line x1="500" y1="90" x2="580" y2="90" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="70" width="88" height="40" rx="4"/><text x="624" y="87" text-anchor="middle" font-size="11">Threat Intel</text><text x="624" y="101" text-anchor="middle" font-size="11">Feed (IoCs)</text></g>
+
+<line x1="340" y1="110" x2="340" y2="135" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Detectar spear-phishing / correos sospechosos -->
+<g class="box-red"><rect x="180" y="135" width="320" height="40" rx="6"/><text x="340" y="155" text-anchor="middle" font-size="12" font-weight="500">Detectar correos sospechosos / spear-phishing</text><text x="340" y="169" text-anchor="middle" font-size="11">(SPF/DKIM/DMARC + Honeytoken Emails)</text></g>
+<line x1="180" y1="155" x2="80" y2="155" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="135" width="60" height="40" rx="4"/><text x="50" y="152" text-anchor="middle" font-size="11">Anti-spam</text><text x="50" y="166" text-anchor="middle" font-size="11">Email GW</text></g>
+
+<line x1="340" y1="175" x2="340" y2="200" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Detectar ejecución de macros / exploit CVE -->
+<g class="box-red"><rect x="180" y="200" width="320" height="40" rx="6"/><text x="340" y="220" text-anchor="middle" font-size="12" font-weight="500">Detectar ejecución de macros / exploit CVE-2014-4114</text><text x="340" y="234" text-anchor="middle" font-size="11">(HIDS/EDR + Email Sandbox)</text></g>
+<line x1="500" y1="220" x2="580" y2="220" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="200" width="88" height="40" rx="4"/><text x="624" y="217" text-anchor="middle" font-size="11">HIDS/EDR</text><text x="624" y="231" text-anchor="middle" font-size="11">Sandbox</text></g>
+
+<line x1="340" y1="240" x2="340" y2="265" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Detectar conexiones C2 / beacons -->
+<g class="box-red"><rect x="180" y="265" width="320" height="40" rx="6"/><text x="340" y="285" text-anchor="middle" font-size="12" font-weight="500">Detectar conexiones C2 / beacons BlackEnergy3</text><text x="340" y="299" text-anchor="middle" font-size="11">(NIDS/SIEM + HTTP NIPS + DNS Sinkhole)</text></g>
+<line x1="180" y1="285" x2="80" y2="285" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="265" width="60" height="40" rx="4"/><text x="50" y="282" text-anchor="middle" font-size="11">DNS</text><text x="50" y="296" text-anchor="middle" font-size="11">Sinkhole</text></g>
+
+<line x1="340" y1="305" x2="340" y2="330" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Detectar acceso VPN con credenciales robadas -->
+<g class="box-red"><rect x="180" y="330" width="320" height="40" rx="6"/><text x="340" y="350" text-anchor="middle" font-size="12" font-weight="500">Detectar acceso VPN anómalo</text><text x="340" y="364" text-anchor="middle" font-size="11">(MFA/2FA + Detección Proxy/SIEM actividad HMI)</text></g>
+<line x1="500" y1="350" x2="580" y2="350" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="330" width="88" height="40" rx="4"/><text x="624" y="347" text-anchor="middle" font-size="11">VPN Logs</text><text x="624" y="361" text-anchor="middle" font-size="11">MFA 2FA</text></g>
+
+<line x1="340" y1="370" x2="340" y2="395" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Detectar instalación KillDisk / firmware troyanizado -->
+<g class="box-red"><rect x="180" y="395" width="320" height="40" rx="6"/><text x="340" y="415" text-anchor="middle" font-size="12" font-weight="500">Detectar KillDisk / firmware troyanizado en ICS</text><text x="340" y="429" text-anchor="middle" font-size="11">(HIDS/AV + Detección previa al despliegue KillDisk)</text></g>
+<line x1="180" y1="415" x2="80" y2="415" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="395" width="60" height="40" rx="4"/><text x="50" y="412" text-anchor="middle" font-size="11">HIDS/AV</text><text x="50" y="426" text-anchor="middle" font-size="11">ICS Logs</text></g>
+
+<line x1="340" y1="435" x2="340" y2="460" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Alerta generada -->
+<g class="box-red"><rect x="205" y="460" width="270" height="36" rx="6"/><text x="340" y="483" text-anchor="middle" font-size="12" font-weight="500">Generar alerta y notificar al ERI</text></g>
+<line x1="340" y1="496" x2="340" y2="520" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g>
+  <polygon points="255,520 425,520 340,556" fill="#FFD700" stroke="none" />
+  <text x="340" y="538" text-anchor="middle" font-size="13" font-weight="500" fill="currentColor">→ Análisis</text>
+</g>
+</svg>
+</div>
+
+<!-- C. ANÁLISIS -->
+<div class="panel" id="anal">
+<svg class="flow" viewBox="0 0 680 640">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<g class="box-yellow"><rect x="255" y="10" width="170" height="36" rx="18"/><text x="340" y="33" text-anchor="middle" font-size="13" font-weight="500">← Detección</text></g>
+<line x1="340" y1="46" x2="340" y2="70" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Identificar sistemas afectados -->
+<g class="box-red"><rect x="180" y="70" width="320" height="40" rx="6"/><text x="340" y="90" text-anchor="middle" font-size="12" font-weight="500">Identificar sistemas afectados</text><text x="340" y="104" text-anchor="middle" font-size="11">(Servidores, HMIs, RTUs, UPS, S-to-E)</text></g>
+<line x1="500" y1="90" x2="580" y2="90" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="70" width="88" height="40" rx="4"/><text x="624" y="87" text-anchor="middle" font-size="11">Inventario</text><text x="624" y="101" text-anchor="middle" font-size="11">ICS/SCADA</text></g>
+
+<line x1="340" y1="110" x2="340" y2="135" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Análisis forense de logs -->
+<g class="box-red"><rect x="180" y="135" width="320" height="40" rx="6"/><text x="340" y="155" text-anchor="middle" font-size="12" font-weight="500">Análisis forense de fuentes de información</text><text x="340" y="169" text-anchor="middle" font-size="11">(SIEM, IDS/IPS logs, Firewall, Antivirus, Scanners)</text></g>
+<line x1="180" y1="155" x2="80" y2="155" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="135" width="60" height="40" rx="4"/><text x="50" y="152" text-anchor="middle" font-size="11">SIEM</text><text x="50" y="166" text-anchor="middle" font-size="11">FW Logs</text></g>
+
+<line x1="340" y1="175" x2="340" y2="200" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Identificar credenciales comprometidas -->
+<g class="box-red"><rect x="180" y="200" width="320" height="40" rx="6"/><text x="340" y="220" text-anchor="middle" font-size="12" font-weight="500">Identificar credenciales VPN comprometidas</text><text x="340" y="234" text-anchor="middle" font-size="11">(T1589, T1555 – Mimikatz / volcado LSA)</text></g>
+<line x1="500" y1="220" x2="580" y2="220" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="200" width="88" height="40" rx="4"/><text x="624" y="217" text-anchor="middle" font-size="11">AD Logs</text><text x="624" y="231" text-anchor="middle" font-size="11">VPN Auth</text></g>
+
+<line x1="340" y1="240" x2="340" y2="265" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Análisis expansión del ataque IT/OT -->
+<g class="box-red"><rect x="180" y="265" width="320" height="40" rx="6"/><text x="340" y="285" text-anchor="middle" font-size="12" font-weight="500">Analizar cómo se extendió el ataque IT→OT</text><text x="340" y="299" text-anchor="middle" font-size="11">(Relación BlackEnergy3 ↔ KillDisk ↔ ICS)</text></g>
+<line x1="180" y1="285" x2="80" y2="285" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="265" width="60" height="40" rx="4"/><text x="50" y="282" text-anchor="middle" font-size="11">Análisis</text><text x="50" y="296" text-anchor="middle" font-size="11">Sandbox VM</text></g>
+
+<line x1="340" y1="305" x2="340" y2="330" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Evaluación de impacto -->
+<g class="box-red"><rect x="180" y="330" width="320" height="40" rx="6"/><text x="340" y="350" text-anchor="middle" font-size="12" font-weight="500">Evaluar impacto operacional y priorizar</text><text x="340" y="364" text-anchor="middle" font-size="11">(Sistemas afectados, Backups, RTO / RPO)</text></g>
+<line x1="500" y1="350" x2="580" y2="350" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="330" width="88" height="40" rx="4"/><text x="624" y="347" text-anchor="middle" font-size="11">RTO / RPO</text><text x="624" y="361" text-anchor="middle" font-size="11">Backups ICS</text></g>
+
+<line x1="340" y1="370" x2="340" y2="395" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Implicaciones al negocio -->
+<g class="box-red"><rect x="180" y="395" width="320" height="40" rx="6"/><text x="340" y="415" text-anchor="middle" font-size="12" font-weight="500">Identificar implicaciones al negocio y TDoS activo</text><text x="340" y="429" text-anchor="middle" font-size="11">(Subestaciones, Call Center, impacto cívil)</text></g>
+<line x1="180" y1="415" x2="80" y2="415" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="395" width="60" height="40" rx="4"/><text x="50" y="412" text-anchor="middle" font-size="11">Modelo</text><text x="50" y="426" text-anchor="middle" font-size="11">Diamante</text></g>
+
+<line x1="340" y1="435" x2="340" y2="460" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Confirmar alcance -->
+<g class="box-red"><rect x="205" y="460" width="270" height="36" rx="6"/><text x="340" y="483" text-anchor="middle" font-size="12" font-weight="500">Confirmar alcance y clasificar incidente</text></g>
+<line x1="340" y1="496" x2="340" y2="520" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<g>
+  <polygon points="255,520 425,520 340,556" fill="#FFD700" stroke="none" />
+  <text x="340" y="538" text-anchor="middle" font-size="13" font-weight="500" fill="currentColor">→ Contención</text>
+</g>
+</svg>
+</div>
+
+<!-- D. CONTENCIÓN -->
+<div class="panel" id="cont">
+<svg class="flow" viewBox="0 0 680 620">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<g class="box-yellow"><rect x="240" y="10" width="200" height="36" rx="18"/><text x="340" y="33" text-anchor="middle" font-size="13" font-weight="500">← Análisis</text></g>
+<line x1="340" y1="46" x2="340" y2="70" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Activar Air Gap de emergencia -->
+<g class="box-red"><rect x="165" y="70" width="350" height="40" rx="6"/><text x="340" y="90" text-anchor="middle" font-size="12" font-weight="500">Activar Air Gap de emergencia (Aislamiento OT)</text><text x="340" y="104" text-anchor="middle" font-size="11">(Desconectar red OT de IT, Internet y VPN)</text></g>
+<line x1="165" y1="90" x2="80" y2="90" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="70" width="60" height="40" rx="4"/><text x="50" y="87" text-anchor="middle" font-size="11">Air Gap</text><text x="50" y="101" text-anchor="middle" font-size="11">Red OT</text></g>
+
+<line x1="340" y1="110" x2="340" y2="135" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Bloquear IP C2 y revocar credenciales VPN -->
+<g class="box-red"><rect x="165" y="135" width="350" height="40" rx="6"/><text x="340" y="155" text-anchor="middle" font-size="12" font-weight="500">Bloquear IP C2 + Revocar credenciales VPN</text><text x="340" y="169" text-anchor="middle" font-size="11">(Bloqueo FW/IPS + Revocación cred. VPN)</text></g>
+<line x1="515" y1="155" x2="580" y2="155" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="135" width="88" height="40" rx="4"/><text x="624" y="152" text-anchor="middle" font-size="11">Firewall</text><text x="624" y="166" text-anchor="middle" font-size="11">IPS/VPN GW</text></g>
+
+<line x1="340" y1="175" x2="340" y2="200" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Aislar endpoint comprometido -->
+<g class="box-red"><rect x="165" y="200" width="350" height="40" rx="6"/><text x="340" y="220" text-anchor="middle" font-size="12" font-weight="500">Aislar endpoints comprometidos (Network Isolation)</text><text x="340" y="234" text-anchor="middle" font-size="11">(Bloqueo comunicación con servidor C2 FW/IPS)</text></g>
+<line x1="165" y1="220" x2="80" y2="220" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="200" width="60" height="40" rx="4"/><text x="50" y="217" text-anchor="middle" font-size="11">EDR</text><text x="50" y="231" text-anchor="middle" font-size="11">Isolación</text></g>
+
+<line x1="340" y1="240" x2="340" y2="265" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Desviar beacons a servidor señuelo -->
+<g class="box-red"><rect x="165" y="265" width="350" height="40" rx="6"/><text x="340" y="285" text-anchor="middle" font-size="12" font-weight="500">Desviar beacons a servidor señuelo (Sinkhole C2)</text><text x="340" y="299" text-anchor="middle" font-size="11">(Honeypot C2 Deception + DNS Sinkhole)</text></g>
+<line x1="515" y1="285" x2="580" y2="285" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="265" width="88" height="40" rx="4"/><text x="624" y="282" text-anchor="middle" font-size="11">Honeypot</text><text x="624" y="296" text-anchor="middle" font-size="11">Sinkhole C2</text></g>
+
+<line x1="340" y1="305" x2="340" y2="330" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Suspender account con tráfico C2 -->
+<g class="box-red"><rect x="165" y="330" width="350" height="40" rx="6"/><text x="340" y="350" text-anchor="middle" font-size="12" font-weight="500">Suspender cuentas con tráfico C2 detectado</text><text x="340" y="364" text-anchor="middle" font-size="11">(Suspensión temporal account con tráfico C2)</text></g>
+<line x1="165" y1="350" x2="80" y2="350" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="330" width="60" height="40" rx="4"/><text x="50" y="347" text-anchor="middle" font-size="11">AD / IAM</text><text x="50" y="361" text-anchor="middle" font-size="11">Cred. Revoc.</text></g>
+
+<line x1="340" y1="370" x2="340" y2="395" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Contener TDoS -->
+<g class="box-red"><rect x="165" y="395" width="350" height="40" rx="6"/><text x="340" y="415" text-anchor="middle" font-size="12" font-weight="500">Contener TDoS: Filtrado llamadas + canales altern.</text><text x="340" y="429" text-anchor="middle" font-size="11">(Mitigación TDoS + Aislamiento OT Air Gap emerg.)</text></g>
+<line x1="515" y1="415" x2="580" y2="415" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="395" width="88" height="40" rx="4"/><text x="624" y="412" text-anchor="middle" font-size="11">Filtro TDoS</text><text x="624" y="426" text-anchor="middle" font-size="11">Call Center</text></g>
+
+<line x1="340" y1="435" x2="340" y2="460" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Comunicaciones -->
+<g class="box-red"><rect x="205" y="460" width="270" height="36" rx="6"/><text x="340" y="483" text-anchor="middle" font-size="12" font-weight="500">Activar comunicaciones de emergencia</text></g>
+<line x1="340" y1="496" x2="340" y2="520" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<g>
+  <polygon points="255,520 425,520 340,556" fill="#FFD700" stroke="none" />
+  <text x="340" y="538" text-anchor="middle" font-size="13" font-weight="500" fill="currentColor">→ Erradicación</text>
+</g>
+</svg>
+</div>
+
+<!-- E. ERRADICACIÓN -->
+<div class="panel" id="erra">
+<svg class="flow" viewBox="0 0 680 600">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<g class="box-yellow"><rect x="240" y="10" width="200" height="36" rx="18"/><text x="340" y="33" text-anchor="middle" font-size="13" font-weight="500">← Contención</text></g>
+<line x1="340" y1="46" x2="340" y2="70" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Eliminar BlackEnergy3 y KillDisk -->
+<g class="box-red"><rect x="165" y="70" width="350" height="40" rx="6"/><text x="340" y="90" text-anchor="middle" font-size="12" font-weight="500">Eliminar BlackEnergy3 y KillDisk de sistemas</text><text x="340" y="104" text-anchor="middle" font-size="11">(Ejecutar antivirus + Malware removal tool)</text></g>
+<line x1="165" y1="90" x2="80" y2="90" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="70" width="60" height="40" rx="4"/><text x="50" y="87" text-anchor="middle" font-size="11">AV/EDR</text><text x="50" y="101" text-anchor="middle" font-size="11">Removal</text></g>
+<line x1="515" y1="90" x2="580" y2="90" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="70" width="88" height="40" rx="4"/><text x="624" y="87" text-anchor="middle" font-size="11">Cuarentena</text><text x="624" y="101" text-anchor="middle" font-size="11">binario</text></g>
+
+<line x1="340" y1="110" x2="340" y2="135" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Parchear CVE-2014-4114 -->
+<g class="box-red"><rect x="165" y="135" width="350" height="40" rx="6"/><text x="340" y="155" text-anchor="middle" font-size="12" font-weight="500">Parchear CVE-2014-4114 (MS14-060)</text><text x="340" y="169" text-anchor="middle" font-size="11">(Parches periódicos Microsoft Office + Patch Mgmt)</text></g>
+<line x1="165" y1="155" x2="80" y2="155" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="135" width="60" height="40" rx="4"/><text x="50" y="152" text-anchor="middle" font-size="11">Patch</text><text x="50" y="166" text-anchor="middle" font-size="11">Mgmt</text></g>
+
+<line x1="340" y1="175" x2="340" y2="200" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Restaurar firmwares ICS limpios -->
+<g class="box-red"><rect x="165" y="200" width="350" height="40" rx="6"/><text x="340" y="220" text-anchor="middle" font-size="12" font-weight="500">Restaurar firmwares ICS desde backups offline</text><text x="340" y="234" text-anchor="middle" font-size="11">(Backups offline de firmware UPS, HMI, S-to-E)</text></g>
+<line x1="515" y1="220" x2="580" y2="220" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="200" width="88" height="40" rx="4"/><text x="624" y="217" text-anchor="middle" font-size="11">Backups</text><text x="624" y="231" text-anchor="middle" font-size="11">Offline ICS</text></g>
+
+<line x1="340" y1="240" x2="340" y2="265" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Desactivar cuenta origen si interna / bloquear IP remitente -->
+<g class="box-red"><rect x="165" y="265" width="350" height="40" rx="6"/><text x="340" y="285" text-anchor="middle" font-size="12" font-weight="500">Desactivar cuentas comprometidas / origen spear-phishing</text><text x="340" y="299" text-anchor="middle" font-size="11">(Desactivar cuenta origen + Bloqueo IP dominio remitente)</text></g>
+<line x1="165" y1="285" x2="80" y2="285" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="265" width="60" height="40" rx="4"/><text x="50" y="282" text-anchor="middle" font-size="11">AD/IAM</text><text x="50" y="296" text-anchor="middle" font-size="11">TI Feed</text></g>
+
+<line x1="340" y1="305" x2="340" y2="330" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Reforzar AppLocker + GPO -->
+<g class="box-red"><rect x="165" y="330" width="350" height="40" rx="6"/><text x="340" y="350" text-anchor="middle" font-size="12" font-weight="500">Reforzar AppLocker, GPO y DEP/ASLR</text><text x="340" y="364" text-anchor="middle" font-size="11">(Application Whitelisting + DEP/ASLR SO Windows)</text></g>
+<line x1="515" y1="350" x2="580" y2="350" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="330" width="88" height="40" rx="4"/><text x="624" y="347" text-anchor="middle" font-size="11">AppLocker</text><text x="624" y="361" text-anchor="middle" font-size="11">DEP/ASLR</text></g>
+
+<line x1="340" y1="370" x2="340" y2="395" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Análisis forense sandbox -->
+<g class="box-red"><rect x="165" y="395" width="350" height="40" rx="6"/><text x="340" y="415" text-anchor="middle" font-size="12" font-weight="500">Validar erradicación en sandbox (análisis forense)</text><text x="340" y="429" text-anchor="middle" font-size="11">(Ejecutar en sandbox + Análisis forense VM)</text></g>
+<line x1="165" y1="415" x2="80" y2="415" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="395" width="60" height="40" rx="4"/><text x="50" y="412" text-anchor="middle" font-size="11">Sandbox</text><text x="50" y="426" text-anchor="middle" font-size="11">VM forense</text></g>
+
+<line x1="340" y1="530" x2="340" y2="432" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<g>
+  <polygon points="255,525 425,525 340,556" fill="#FFD700" stroke="none" />
+  <text x="340" y="538" text-anchor="middle" font-size="13" font-weight="500" fill="currentColor">→ Recuperación</text>
+</g>
+</svg>
+
+</div>
+
+<!-- F. RECUPERACIÓN -->
+<div class="panel" id="rec">
+<svg class="flow" viewBox="0 0 680 580">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<g class="box-yellow"><rect x="240" y="10" width="200" height="36" rx="18"/><text x="340" y="33" text-anchor="middle" font-size="13" font-weight="500">← Erradicación</text></g>
+<line x1="340" y1="46" x2="340" y2="70" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Instalaciones limpias SO -->
+<g class="box-red"><rect x="165" y="70" width="350" height="40" rx="6"/><text x="340" y="90" text-anchor="middle" font-size="12" font-weight="500">Reinstalar sistemas con instalaciones limpias</text><text x="340" y="104" text-anchor="middle" font-size="11">(Reimagen de sistemas comprometidos – DR)</text></g>
+<line x1="515" y1="90" x2="580" y2="90" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="70" width="88" height="40" rx="4"/><text x="624" y="87" text-anchor="middle" font-size="11">Borrado y</text><text x="624" y="101" text-anchor="middle" font-size="11">Reimagen DR</text></g>
+
+<line x1="340" y1="110" x2="340" y2="135" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Restaurar configuración ICS/SCADA -->
+<g class="box-red"><rect x="165" y="135" width="350" height="40" rx="6"/><text x="340" y="155" text-anchor="middle" font-size="12" font-weight="500">Restaurar configuraciones ICS/SCADA verificadas</text><text x="340" y="169" text-anchor="middle" font-size="11">(Reconfiguración + backups offline firmware)</text></g>
+<line x1="165" y1="155" x2="80" y2="155" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="135" width="60" height="40" rx="4"/><text x="50" y="152" text-anchor="middle" font-size="11">Backups</text><text x="50" y="166" text-anchor="middle" font-size="11">Offline</text></g>
+
+<line x1="340" y1="175" x2="340" y2="200" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Recuperar información de respaldos -->
+<g class="box-red"><rect x="165" y="200" width="350" height="40" rx="6"/><text x="340" y="220" text-anchor="middle" font-size="12" font-weight="500">Recuperar información desde respaldos offline</text><text x="340" y="234" text-anchor="middle" font-size="11">(Respaldos + sincronización con nube controlada)</text></g>
+<line x1="515" y1="220" x2="580" y2="220" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="200" width="88" height="40" rx="4"/><text x="624" y="217" text-anchor="middle" font-size="11">Backup</text><text x="624" y="231" text-anchor="middle" font-size="11">Nube segura</text></g>
+
+<line x1="340" y1="240" x2="340" y2="265" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Restablecer operación manual subestaciones -->
+<g class="box-red"><rect x="165" y="265" width="350" height="40" rx="6"/><text x="340" y="285" text-anchor="middle" font-size="12" font-weight="500">Restablecer operación manual de subestaciones</text><text x="340" y="299" text-anchor="middle" font-size="11">(Procedimientos manuales de respuesta de emergencia)</text></g>
+<line x1="165" y1="285" x2="80" y2="285" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="265" width="60" height="40" rx="4"/><text x="50" y="282" text-anchor="middle" font-size="11">Plan ICS</text><text x="50" y="296" text-anchor="middle" font-size="11">IR manual</text></g>
+
+<line x1="340" y1="305" x2="340" y2="330" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Restablecer VPN con MFA obligatorio -->
+<g class="box-red"><rect x="165" y="330" width="350" height="40" rx="6"/><text x="340" y="350" text-anchor="middle" font-size="12" font-weight="500">Restablecer VPN con MFA obligatorio (2FA)</text><text x="340" y="364" text-anchor="middle" font-size="11">(MFA/2FA en VPN + Revocación credenciales VPN)</text></g>
+<line x1="515" y1="350" x2="580" y2="350" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="330" width="88" height="40" rx="4"/><text x="624" y="347" text-anchor="middle" font-size="11">MFA/2FA</text><text x="624" y="361" text-anchor="middle" font-size="11">VPN GW</text></g>
+
+<line x1="340" y1="370" x2="340" y2="395" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Validar restablecimiento suministro -->
+<g class="box-red"><rect x="205" y="395" width="270" height="36" rx="6"/><text x="340" y="418" text-anchor="middle" font-size="12" font-weight="500">Validar restablecimiento del suministro eléctrico</text></g>
+<line x1="340" y1="530" x2="340" y2="432" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<g>
+  <polygon points="255,525 425,525 340,556" fill="#FFD700" stroke="none" />
+  <text x="340" y="538" text-anchor="middle" font-size="13" font-weight="500" fill="currentColor">→ Post-Incidente</text>
+</g>
+</svg>
+</div>
+
+<!-- G. POST-INCIDENTE -->
+<div class="panel" id="post">
+<svg class="flow" viewBox="0 0 680 600">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<g class="box-yellow"><rect x="240" y="10" width="200" height="36" rx="18"/><text x="340" y="33" text-anchor="middle" font-size="13" font-weight="500">← Recuperación</text></g>
+<line x1="340" y1="46" x2="340" y2="70" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Generar reporte completo -->
+<g class="box-red"><rect x="165" y="70" width="350" height="40" rx="6"/><text x="340" y="90" text-anchor="middle" font-size="12" font-weight="500">Generar y documentar reporte completo del caso</text><text x="340" y="104" text-anchor="middle" font-size="11">(Tabla eventos + Modelo Diamante + Matriz CKC)</text></g>
+<line x1="515" y1="90" x2="580" y2="90" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="70" width="88" height="40" rx="4"/><text x="624" y="87" text-anchor="middle" font-size="11">Modelo</text><text x="624" y="101" text-anchor="middle" font-size="11">Diamante</text></g>
+
+<line x1="340" y1="110" x2="340" y2="135" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Lecciones aprendidas -->
+<g class="box-red"><rect x="165" y="135" width="350" height="40" rx="6"/><text x="340" y="155" text-anchor="middle" font-size="12" font-weight="500">Identificar lecciones aprendidas</text><text x="340" y="169" text-anchor="middle" font-size="11">(Actualización de políticas, updates, configuraciones)</text></g>
+<line x1="165" y1="155" x2="80" y2="155" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="135" width="60" height="40" rx="4"/><text x="50" y="152" text-anchor="middle" font-size="11">Políticas</text><text x="50" y="166" text-anchor="middle" font-size="11">Configs</text></g>
+
+<line x1="340" y1="175" x2="340" y2="200" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Análisis con Modelo Diamante -->
+<g class="box-red"><rect x="165" y="200" width="350" height="40" rx="6"/><text x="340" y="220" text-anchor="middle" font-size="12" font-weight="500">Realizar análisis con Modelo Diamante (TTPs)</text><text x="340" y="234" text-anchor="middle" font-size="11">(Adversario, Infraestructura, Capacidad, Víctima)</text></g>
+<line x1="515" y1="220" x2="580" y2="220" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="200" width="88" height="40" rx="4"/><text x="624" y="217" text-anchor="middle" font-size="11">MITRE</text><text x="624" y="231" text-anchor="middle" font-size="11">ATT&amp;CK</text></g>
+
+<line x1="340" y1="240" x2="340" y2="265" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Cambios en TTP / nuevas herramientas -->
+<g class="box-red"><rect x="165" y="265" width="350" height="40" rx="6"/><text x="340" y="285" text-anchor="middle" font-size="12" font-weight="500">Implementar cambios en TTP y nuevas herramientas</text><text x="340" y="299" text-anchor="middle" font-size="11">(Nuevas tácticas, técnicas y procedimientos ICS)</text></g>
+<line x1="165" y1="285" x2="80" y2="285" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="20" y="265" width="60" height="40" rx="4"/><text x="50" y="282" text-anchor="middle" font-size="11">Threat</text><text x="50" y="296" text-anchor="middle" font-size="11">Intel Feed</text></g>
+
+<line x1="340" y1="305" x2="340" y2="330" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Capacitación anti-phishing -->
+<g class="box-red"><rect x="165" y="330" width="350" height="40" rx="6"/><text x="340" y="350" text-anchor="middle" font-size="12" font-weight="500">Ejecutar capacitación anti-phishing al personal</text><text x="340" y="364" text-anchor="middle" font-size="11">(Security Awareness Training + simulacros)</text></g>
+<line x1="515" y1="350" x2="580" y2="350" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+<g class="box-gray"><rect x="580" y="330" width="88" height="40" rx="4"/><text x="624" y="347" text-anchor="middle" font-size="11">Awareness</text><text x="624" y="361" text-anchor="middle" font-size="11">Training</text></g>
+
+<line x1="340" y1="370" x2="340" y2="395" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- Actualizar Playbook -->
+<g class="box-red"><rect x="205" y="395" width="270" height="36" rx="6"/><text x="340" y="418" text-anchor="middle" font-size="12" font-weight="500">Actualizar Playbook con hallazgos del incidente</text></g>
+<line x1="340" y1="431" x2="340" y2="456" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+<!-- FIN -->
+<g class="box-green"><rect x="265" y="456" width="150" height="36" rx="18"/><text x="340" y="479" text-anchor="middle" font-size="13" font-weight="500">FIN</text></g>
+</svg>
+</div>
+
+<!-- GLOSARIO -->
+<div class="panel" id="glos">
+<table class="gloss-table">
+<thead><tr><th>Control de seguridad</th><th>Fase(s) CKC</th><th>Línea de acción</th><th>Descripción aplicada al caso</th></tr></thead>
+<tbody>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+OSINT Monitoring (Open Source Intelligence),
+NIDS (Network Intrusion Detection System),
+SIEM (Security Information and Event Management)
+</pre>
+</td><td>Reconocimiento / C2</td><td>Detección</td><td>Monitoreo de fuentes abiertas (LinkedIn, web corporativa) y tráfico interno para detectar beacons de BlackEnergy3 y actividad anómala en HMI.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Política OPSEC (Operations Security) 
+</pre>
+</td><td>Reconocimiento</td><td>Denegación</td><td>Minimiza exposición de datos públicos de empleados y proveedores. Reduce superficie para spear-phishing con dominios typosquatting (ukrenergo.energy.gov.ua).</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px; margin-left: 5px;">
+Honeytoken Emails (correo electrónico de señuelo)
+</pre>
+</td><td>Reconocimiento / Entrega</td><td>Engaño</td><td>Correos ficticios sembrados en directorios web. Si el atacante los usa para phishing, se genera alerta automática revelando sus intenciones.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px; ">
+SPF (Sender Policy Framework)
+DKIM (DomainKeys Identified Mail)
+DMARC (Autenticación de mensajes basada en dominios, informes y conformidad)
+</pre>
+</td><td>Entrega</td><td>Detección / Denegación</td><td>Protocolos de autenticación de correo que bloquean suplantación del dominio ukrenergo.energy.gov.ua utilizado en el spear-phishing.</td></tr>
+<tr><td>Restricción Macros Office (GPO)</td><td>Armamentización / Explotación</td><td>Denegación / Disrupción</td><td>Deshabilita ejecución de macros mediante Directiva de Grupo en Active Directory. Mitiga el vector de explotación CVE-2014-4114 de BlackEnergy3.</td></tr>
+<tr><td>Patch Management (Parche MS14-060)</td><td>Armamentización / Explotación</td><td>Degradación</td><td>Aplicación del parche MS14-060 que cierra la vulnerabilidad OLE CVE-2014-4114 explotada por BlackEnergy3 vía documento Office troyanizado.</td></tr>
+<tr><td>Email Sandbox (Email Sandbox)</td><td>Entrega</td><td>Degradación</td><td>Entorno aislado donde se analizan automáticamente los adjuntos antes de entregarlos. Detecta detonación de macros y shellcode del adjunto con BlackEnergy3.</td></tr>
+<tr><td>Canary Docs / Canary Token</td><td>Armamentización / Instalación / Explotación</td><td>Engaño</td><td>Documentos Office o archivos señuelo con tokens. Detecta si el atacante los utiliza como plantilla para armar nuevas cargas maliciosas o accede a carpetas ICS.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+HIDS (Host-based Intrusion Detection System),
+EDR (Endpoint Detection and Response)
+</pre>
+</td><td>Explotación / Instalación</td><td>Detección</td><td>Monitorea endpoints en tiempo real: detecta ejecución de macros, creación de backdoors y comunicaciones salientes de BlackEnergy3 o KillDisk en sistemas Windows.</td></tr>
+<tr><td>Application Whitelisting (AppLocker)</td><td>Explotación / Instalación</td><td>Disrupción</td><td>Solo permite ejecución de aplicaciones autorizadas. Bloquea BlackEnergy3 y KillDisk si no están en la lista de aplicaciones permitidas en sistemas ICS/SCADA.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px; ">
+DEP (Data Execution Prevention),
+ASLR (Address Space Layout Randomization)
+</pre>
+</td><td>Explotación</td><td>Degradación</td><td>Mecanismos de protección de memoria en Windows que dificultan la explotación predecible de CVE-2014-4114 (DEP bloquea ejecución en datos; ASLR aleatoriza direcciones).</td></tr>
+<tr><td>Segmentación Red IT/OT (VLAN + Firewall OT)</td><td>Instalación / C2 / Acciones</td><td>Degradación / Denegación</td><td>Separa físicamente las redes IT y OT mediante VLANs y firewalls específicos (Purdue Model). Limita la propagación de BlackEnergy3 de la red corporativa hacia SCADA.</td></tr>
+<tr><td>DNS Sinkhole</td><td>Entrega / C2</td><td>Disrupción / Desvío</td><td>Redirige resoluciones DNS de dominios maliciosos (typosquatting, C2) hacia un servidor controlado por seguridad, bloqueando comunicación de BlackEnergy3 con su C2.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+HTTP NIPS (Network Intrusion Prevention System)
+</pre>
+</td><td>C2</td><td>Disrupción</td><td>Inspecciona y bloquea en línea el tráfico HTTP/HTTPS sospechoso: comunicaciones de BlackEnergy3 con servidores C2, descargas de KillDisk y tráfico de botnets.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+SIEM (Security Information and Event Management)
+</pre>
+</td><td>C2 / Reconocimiento / Acciones</td><td>Detección</td><td>Centraliza y correlaciona logs de firewalls, NIDS, endpoints y servidores. Detecta patrones anómalos como beacons de BlackEnergy3 hacia servidores C2 externos.</td></tr>
+<tr><td>Honeypot C2 / ICS Honeypot</td><td>C2 / Acciones en objetivo</td><td>Engaño / Desvío</td><td>Sistemas ficticios que simulan servidores C2 o dispositivos ICS/SCADA reales. Atraen y desvían comunicaciones de BlackEnergy3 para estudiar TTPs sin exponer producción.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+MFA (Multi-Factor Authentication),
+2FA (Two-Factor Authentication) en VPN
+</pre>
+</td><td>Acciones en objetivo</td><td>Denegación</td><td>Autenticación multifactor para VPN e ICS. Aunque el atacante obtuvo credenciales VPN mediante Mimikatz/keyloggers, MFA habría bloqueado su uso sin el segundo factor.</td></tr>
+<tr><td>Backups Offline de Firmware</td><td>Acciones en objetivo</td><td>Degradación</td><td>Copias de firmwares de UPS, Serial-to-Ethernet y HMIs almacenadas offline. Permiten restaurar rápidamente dispositivos con versiones troyanizadas de firmware por KillDisk.</td></tr>
+<tr><td>Air Gap de Emergencia</td><td>Acciones en objetivo</td><td>Neutralización</td><td>Desconecta físicamente la red OT/ICS de todas las redes externas ante detección de ataque activo. Previene ejecución remota de comandos destructivos en HMIs y RTUs.</td></tr>
+<tr><td><pre style="font-family: sans-serif; font-size: 11px;">
+Mitigación TDoS (Ataque distribuido de denegación de servicio)
+</pre>
+</td><td>Acciones en objetivo</td><td>Neutralización / Disrupción</td><td>Controles para detectar y mitigar ataques de denegación de servicio telefónico (TDoS) contra Call Centers del sistema eléctrico. Incluye filtrado de llamadas y canales alternativos.</td></tr>
+<tr><td>><pre style="font-family: sans-serif; font-size: 11px;">
+Threat Intelligence Feed (flujo de inteligencia sobre amenazas)
+</pre>
+</td><td>Reconocimiento / Entrega / C2</td><td>Detección / Neutralización</td><td>Servicios de inteligencia con IoCs actualizados: IPs de servidores C2, hashes de BlackEnergy3 y KillDisk, dominios maliciosos y TTPs del grupo Sandworm (APT28).</td></tr>
+<tr><td>Plan de Respuesta ICS (ICS IR Plan)</td><td>Acciones en objetivo</td><td>Retraso / Desvío</td><td>Procedimientos documentados para respuesta ante incidentes ICS. Incluye operación manual de subestaciones, comunicación de emergencia y coordinación con autoridades.</td></tr>
+<tr><td>Revocación de Credenciales VPN</td><td>C2 / Acciones en objetivo</td><td>Neutralización / Supresión</td><td>Invalidación inmediata de credenciales VPN comprometidas (T1589, T1555). Corta el canal de acceso remoto que el atacante usó para ingresar a la red ICS/SCADA.</td></tr>
+<tr><td>Security Awareness Training</td><td>Entrega</td><td>Denegación</td><td>Programa de capacitación anti-phishing a empleados sobre técnicas de ingeniería social, identificación de spear-phishing ICS y procedimientos de reporte de incidentes.</td></tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
